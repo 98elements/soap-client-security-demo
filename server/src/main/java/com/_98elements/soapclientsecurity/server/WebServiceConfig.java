@@ -7,10 +7,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.ws.config.annotation.EnableWs;
 import org.springframework.ws.config.annotation.WsConfigurerAdapter;
+import org.springframework.ws.server.EndpointInterceptor;
+import org.springframework.ws.soap.security.wss4j2.Wss4jSecurityInterceptor;
+import org.springframework.ws.soap.security.wss4j2.support.CryptoFactoryBean;
 import org.springframework.ws.transport.http.MessageDispatcherServlet;
 import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.SimpleXsdSchema;
 import org.springframework.xml.xsd.XsdSchema;
+
+import java.io.IOException;
+import java.util.List;
 
 @EnableWs
 @Configuration
@@ -38,5 +44,33 @@ class WebServiceConfig extends WsConfigurerAdapter {
     @Bean
     XsdSchema countriesSchema() {
         return new SimpleXsdSchema(new ClassPathResource("countries.xsd"));
+    }
+
+    @Bean
+    CryptoFactoryBean cryptoFactoryBean() throws IOException {
+        CryptoFactoryBean cryptoFactoryBean = new CryptoFactoryBean();
+        cryptoFactoryBean.setKeyStoreLocation(new ClassPathResource("server-keystore.jks"));
+        cryptoFactoryBean.setKeyStorePassword("keystore");
+        return cryptoFactoryBean;
+    }
+
+    @Bean
+    Wss4jSecurityInterceptor securityInterceptor() throws Exception {
+        Wss4jSecurityInterceptor securityInterceptor = new Wss4jSecurityInterceptor();
+
+        securityInterceptor.setValidationActions("Signature");
+        securityInterceptor.setValidationSignatureCrypto(cryptoFactoryBean().getObject());
+
+        return securityInterceptor;
+    }
+
+    @Override
+    public void addInterceptors(List<EndpointInterceptor> interceptors) {
+        try {
+            super.addInterceptors(interceptors);
+            interceptors.add(securityInterceptor());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
