@@ -1,0 +1,12 @@
+server:
+  ssl:
+    enabled: true
+    client-auth: need
+    key-store: classpath:server-keystore.jks
+    key-store-password: keystore
+    key-alias: server-cert
+    key-store-type: JKS
+    key-store-provider: SUN
+    trust-store: classpath:server-keystore.jks
+    trust-store-password: keystore
+    trust-store-type: JKS
