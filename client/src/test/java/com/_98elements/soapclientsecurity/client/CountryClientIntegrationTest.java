@@ -2,7 +2,6 @@ package com._98elements.soapclientsecurity.client;
 
 import io.spring.guides.gs_producing_web_service.Country;
 import io.spring.guides.gs_producing_web_service.Currency;
-import net.sf.ehcache.search.aggregator.Count;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
