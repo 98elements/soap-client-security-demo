@@ -2,14 +2,14 @@ package com._98elements.soapclientsecurity.server;
 
 import io.spring.guides.gs_producing_web_service.Country;
 import io.spring.guides.gs_producing_web_service.Currency;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
+@Repository
 public class CountryRepository {
     private static final Map<String, Country> countries = new HashMap<>();
 

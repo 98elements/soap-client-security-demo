@@ -2,6 +2,7 @@ package com._98elements.soapclientsecurity.client;
 
 import io.spring.guides.gs_producing_web_service.Country;
 import io.spring.guides.gs_producing_web_service.Currency;
+import net.sf.ehcache.search.aggregator.Count;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,13 +18,13 @@ public class CountryClientIntegrationTest {
     @Test
     void shouldDownloadCountry() {
         // given
-        var countryName = "Poland";
+        String countryName = "Poland";
 
         // when
-        var country = countryClient.getCountry(countryName).getCountry();
+        Country country = countryClient.getCountry(countryName).getCountry();
 
         // then
-        var expectedCountry = new Country();
+        Country expectedCountry = new Country();
         expectedCountry.setName("Poland");
         expectedCountry.setCapital("Warsaw");
         expectedCountry.setCurrency(Currency.PLN);

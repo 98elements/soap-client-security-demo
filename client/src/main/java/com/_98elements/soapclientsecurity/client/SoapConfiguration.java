@@ -25,14 +25,14 @@ class SoapConfiguration {
 
     @Bean
     Jaxb2Marshaller marshaller() {
-        var marshaller = new Jaxb2Marshaller();
+        Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
         marshaller.setContextPath("io.spring.guides.gs_producing_web_service");
         return marshaller;
     }
 
     @Bean
     KeyStoreFactoryBean keyStore() {
-        var factoryBean = new KeyStoreFactoryBean();
+        KeyStoreFactoryBean factoryBean = new KeyStoreFactoryBean();
         factoryBean.setLocation(KEYSTORE_LOCATION);
         factoryBean.setPassword(KEYSTORE_PASSWORD);
         return factoryBean;
@@ -40,7 +40,7 @@ class SoapConfiguration {
 
     @Bean
     TrustManagersFactoryBean trustManagers(KeyStoreFactoryBean keyStore) {
-        var factoryBean = new TrustManagersFactoryBean();
+        TrustManagersFactoryBean factoryBean = new TrustManagersFactoryBean();
         factoryBean.setKeyStore(keyStore.getObject());
         return factoryBean;
     }
@@ -50,9 +50,9 @@ class SoapConfiguration {
             KeyStoreFactoryBean keyStore,
             TrustManagersFactoryBean trustManagers
     ) throws Exception {
-        var sender = new HttpsUrlConnectionMessageSender();
+        HttpsUrlConnectionMessageSender sender = new HttpsUrlConnectionMessageSender();
 
-        var keyManagersFactoryBean = new KeyManagersFactoryBean();
+        KeyManagersFactoryBean keyManagersFactoryBean = new KeyManagersFactoryBean();
         keyManagersFactoryBean.setKeyStore(keyStore.getObject());
         keyManagersFactoryBean.setPassword(KEYSTORE_PASSWORD);
         keyManagersFactoryBean.afterPropertiesSet();
@@ -65,7 +65,7 @@ class SoapConfiguration {
 
     @Bean
     CryptoFactoryBean cryptoFactoryBean() throws IOException {
-        var cryptoFactoryBean = new CryptoFactoryBean();
+        CryptoFactoryBean cryptoFactoryBean = new CryptoFactoryBean();
         cryptoFactoryBean.setKeyStoreLocation(KEYSTORE_LOCATION);
         cryptoFactoryBean.setKeyStorePassword(KEYSTORE_PASSWORD);
         return cryptoFactoryBean;
@@ -73,7 +73,7 @@ class SoapConfiguration {
 
     @Bean
     Wss4jSecurityInterceptor securityInterceptor(CryptoFactoryBean cryptoFactoryBean) throws Exception {
-        var securityInterceptor = new Wss4jSecurityInterceptor();
+        Wss4jSecurityInterceptor securityInterceptor = new Wss4jSecurityInterceptor();
 
         securityInterceptor.setSecurementActions("Signature");
         securityInterceptor.setSecurementUsername(KEY_ALIAS);
